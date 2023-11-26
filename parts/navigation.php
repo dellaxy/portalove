@@ -6,7 +6,7 @@ use CYBORG\Lib\Database;
 
 $db = new Database();
 
-$connectedUser = $db->getConnectedUser(1);
+$connectedUser = $db->getProfileData(1);
 
 function getProfilePicture($connectedUser) {
   $profilePicture = "assets/images/profiles/";

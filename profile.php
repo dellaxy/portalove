@@ -26,10 +26,15 @@
   
   include_once "parts/navigation.php";
 
-  if (empty($connectedUser['unique_name'])) {
-    exit;
+  if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $profileId = intval($_GET['id']);
+    $profileInfo = $db->getProfileData($profileId);
+  } else {
+    if (empty($connectedUser['unique_name'])) {
+        exit;
+    }
+    $profileInfo = $connectedUser;
   }
-  
   ?>
 
   <div class="container">
@@ -43,21 +48,26 @@
               <div class="main-profile ">
                 <div class="row">
                   <div class="col-lg-4">
-                    <img src="<?php echo getProfilePicture($connectedUser) ?>" alt="" style="border-radius: 23px;">
+                    <img src="<?php echo getProfilePicture($profileInfo) ?>" alt="" style="border-radius: 23px;">
                   </div>
                   <div class="col-lg-4">
                     <div class="main-info header-text">
                       <span>Offline</span>
-                      <h2><?php echo $connectedUser['nickname'] ?></h2>
-                      <p class="mt-3 fs-5"><?php echo $connectedUser['bio'] ?></p>
+                      <h2><?php echo $profileInfo['nickname'] ?></h2>
+                      <p class="mt-3 fs-5"><?php echo $profileInfo['bio'] ?></p>
                     </div>
                   </div>
-                  <div class="col-lg-4 align-self-center">
+                  <div class="col-lg-4">
                     <ul>
-                      <li>Games Downloaded <span>3</span></li>
-                      <li>Friends Online <span>16</span></li>
-                      <li>Live Streams <span>None</span></li>
+                      <li>Games Downloaded <span><?php echo $profileInfo['games_count'] ?></span></li>
+                      <li>Following <span><?php echo $profileInfo['following_count'] ?></span></li>
                       <li>Clips <span>29</span></li>
+                      <?php 
+                        if ($profileInfo['id'] !== $connectedUser['id']){
+                        echo
+                        '<li><div class="main-border-button"><a href="">Add Friend</a></div></li>';
+                        }
+                      ?>
                     </ul>
                   </div>
                 </div>

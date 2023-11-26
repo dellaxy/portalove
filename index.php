@@ -44,7 +44,6 @@ https://templatemo.com/tm-579-cyborg-gaming
       <div class="col-lg-12">
         <div class="page-content">
 
-          <!-- ***** Banner Start ***** -->
           <div class="main-banner">
             <div class="row">
               <div class="col-lg-7">
@@ -58,9 +57,7 @@ https://templatemo.com/tm-579-cyborg-gaming
               </div>
             </div>
           </div>
-          <!-- ***** Banner End ***** -->
 
-          <!-- ***** Most Popular Start ***** -->
           <div class="most-popular">
             <div class="row">
               <div class="col-lg-12">
@@ -83,86 +80,47 @@ https://templatemo.com/tm-579-cyborg-gaming
                           <li><i class="fa fa-download"></i> ' . formatDownloads($game['downloads']) . '</li>
                         </ul>
                       </div>
+                      </a>
                     </div>';
                   }
                   ?>
-
-
-
                 </div>
               </div>
             </div>
           </div>
-          <!-- ***** Most Popular End ***** -->
 
-          <!-- ***** Gaming Library Start ***** -->
           <div class="gaming-library">
             <div class="col-lg-12">
               <div class="heading-section">
-                <h4><em>Your Gaming</em> Library</h4>
+                <h4><em>Most Recent</em> Games</h4>
               </div>
-              <div class="item">
-                <ul>
-                  <li><img src="assets/images/game-03.jpg" alt="" class="templatemo-item"></li>
-                  <li>
-                    <h4>CS-GO</h4><span>Sandbox</span>
-                  </li>
-                  <li>
-                    <h4>Date Added</h4><span>21/04/2036</span>
-                  </li>
-                  <li>
-                    <h4>Hours Played</h4><span>892 H 14 Mins</span>
-                  </li>
-                  <li>
-                    <h4>Currently</h4><span>Downloaded</span>
-                  </li>
-                  <li>
-                    <div class="main-border-button border-no-active"><a href="#">Donwloaded</a>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div class="item">
-                <ul>
-                  <li><img src="assets/images/game-02.jpg" alt="" class="templatemo-item"></li>
-                  <li>
-                    <h4>Fortnite</h4><span>Sandbox</span>
-                  </li>
-                  <li>
-                    <h4>Date Added</h4><span>22/06/2036</span>
-                  </li>
-                  <li>
-                    <h4>Hours Played</h4><span>740 H 52 Mins</span>
-                  </li>
-                  <li>
-                    <h4>Currently</h4><span>Downloaded</span>
-                  </li>
-                  <li>
-                    <div class="main-border-button"><a href="#">Donwload</a></div>
-                  </li>
-                </ul>
-              </div>
-              <div class="item">
-                <ul>
-                  <li><img src="assets/images/game-03.jpg" alt="" class="templatemo-item"></li>
-                  <li>
-                    <h4>CS-GO</h4><span>Sandbox</span>
-                  </li>
-                  <li>
-                    <h4>Date Added</h4><span>21/04/2036</span>
-                  </li>
-                  <li>
-                    <h4>Hours Played</h4><span>892 H 14 Mins</span>
-                  </li>
-                  <li>
-                    <h4>Currently</h4><span>Downloaded</span>
-                  </li>
-                  <li>
-                    <div class="main-border-button border-no-active"><a href="#">Donwloaded</a>
-                    </div>
-                  </li>
-                </ul>
-              </div>
+                <?php 
+                
+                $newestGames = $db->getMostRecentGames();
+
+                foreach ($newestGames as $game) {
+                  echo
+                  '<div class="item">
+                  <ul>
+                    <li><img src="'. getGameHeader($game['game_header']) .'" alt="" class="templatemo-item"></li>
+                    <li>
+                      <h4>'. $game['name'] .'</h4><span>'. $game['category'] .'</span>
+                    </li>
+                    <li>
+                      <h4>Release Date</h4><span>'. $game['release_date'] .'</span>
+                    </li>
+                    <li></li>
+                    <li> </li>
+                    <li>
+                      <div class="main-border-button"><a href="#">Download</a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>';
+                }
+
+                ?>
+
             </div>
             <div class="col-lg-12">
               <div class="main-button">
@@ -170,7 +128,6 @@ https://templatemo.com/tm-579-cyborg-gaming
               </div>
             </div>
           </div>
-          <!-- ***** Gaming Library End ***** -->
         </div>
       </div>
     </div>
@@ -179,8 +136,6 @@ https://templatemo.com/tm-579-cyborg-gaming
   <?php include_once "parts/footer.php"; ?>
 
 
-  <!-- Scripts -->
-  <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 

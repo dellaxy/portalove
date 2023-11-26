@@ -40,8 +40,12 @@
             }
         }
 
-        public function getConnectedUser(int $id): array{
-            $query = "SELECT * FROM profiles WHERE id = :id";
+        public function getProfileData(int $id): array{
+            $query = "SELECT p.*, 
+            (SELECT COUNT(*) FROM profile_following WHERE profile_id = p.id) as following_count,
+            (SELECT COUNT(*) FROM profile_games WHERE profile_id = p.id) as games_count
+            FROM profiles p 
+            WHERE p.id = :id";
             $stmt = $this->connection->prepare($query);
             $stmt->execute(["id" => $id]);
             $connectedUser = $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -82,6 +86,16 @@
             $query = "SELECT games.id, games.name, games.game_header from games Where category_id = :categoryId AND id != :id LIMIT 6";
             $stmt = $this->connection->prepare($query);
             $stmt->execute(["categoryId" => $categoryId, "id" => $id]);
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
+
+        public function getMostRecentGames(): array{
+            $query = "SELECT games.id, games.name, games.game_header, games.release_date ,categories.category as category from games
+            INNER JOIN categories ON categories.id = games.category_id
+            ORDER BY games.release_date DESC
+            LIMIT 3";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         }
         

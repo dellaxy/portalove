@@ -73,7 +73,7 @@
                     <div class="game-details">
                         <div class="row">
                             <div class="col-lg-12">
-                                <h2><?php echo $gameDetail['name']?> Details</h2>
+                                <h2><?php echo $gameDetail['name']?></h2>
                             </div>
                             <div class="col-lg-12">
                                 <div class="content">
@@ -94,7 +94,7 @@
                                         $gameImages = getGameImage($gameDetail['unique_name']);
                                         foreach ($gameImages as $image) {
                                             echo '<div class="col-lg-4">
-                                            <img src="'. $image .'" alt="" style="border-radius: 23px; margin-bottom: 30px;"></div>';
+                                            <img src="'. $image .'" alt="" style="border-radius: 23px; margin-bottom: 30px; height: 300px; object-fit: cover;"></div>';
                                         }
                                         ?>
                                         <div class="col-lg-12">
@@ -102,9 +102,9 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="main-border-button">
-                                                <a href="#">Download Fortnite Now!</a>
+                                                <a href="#">Add To Favourites Now!</a>
                                             </div>
-                                        </div>
+                                        </div>  
                                     </div>
                                 </div>
                             </div>
@@ -127,7 +127,7 @@
                                 '<div class="col-lg-6">
                                 <a href="details.php?id='. $game['id'] .'">
                                     <div class="item">
-                                        <img src="assets/images/games/game.jpg" alt="" class="templatemo-item">
+                                        <img src="'. getGameHeader($game['game_header']) .'" alt="" class="templatemo-item">
                                         <h4 class="fs-5">'. $game['name'] .'</h4>
                                     </div>
                                 </div>';
