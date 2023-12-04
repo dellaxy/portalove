@@ -30,10 +30,10 @@
     $profileId = intval($_GET['id']);
     $profileInfo = $db->getProfileData($profileId);
   } else {
-    if (empty($connectedUser['unique_name'])) {
+    if (empty($currentUser['unique_name'])) {
         exit;
     }
-    $profileInfo = $connectedUser;
+    $profileInfo = $currentUser;
   }
   ?>
 
@@ -63,9 +63,9 @@
                       <li>Following <span><?php echo $profileInfo['following_count'] ?></span></li>
                       <li>Clips <span>29</span></li>
                       <?php 
-                        if ($profileInfo['id'] !== $connectedUser['id']){
+                        if ($profileInfo['id'] !== $currentUser['id']){
                         echo
-                        '<li><div class="main-border-button"><a href="">Add Friend</a></div></li>';
+                        '<li><div class="main-border-button"><a href="">Follow</a></div></li>';
                         }
                       ?>
                     </ul>

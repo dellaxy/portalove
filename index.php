@@ -84,6 +84,7 @@ https://templatemo.com/tm-579-cyborg-gaming
                     </div>';
                   }
                   ?>
+                  
                 </div>
               </div>
             </div>
@@ -111,12 +112,15 @@ https://templatemo.com/tm-579-cyborg-gaming
                     </li>
                     <li></li>
                     <li> </li>
-                    <li>
-                      <div class="main-border-button"><a href="#">Download</a>
-                      </div>
-                    </li>
-                  </ul>
-                </div>';
+                    <li>';
+                    if (isUserLoggedIn()) {
+                      echo '<div class="main-border-button"><a href="#" onclick="downloadGame(' . $game['id'] . ', ' . $currentUser['id'] . ')">Download</a></div>';
+                    } else {
+                        echo '<div class="main-border-button"><a href="login.php">Download</a></div>';
+                    }
+                    echo '</li>
+                        </ul>
+                    </div>';
                 }
 
                 ?>
@@ -145,6 +149,23 @@ https://templatemo.com/tm-579-cyborg-gaming
   <script src="assets/js/popup.js"></script>
   <script src="assets/js/custom.js"></script>
 
+
+  <script>
+      function downloadGame(gameId, userId) {
+        event.preventDefault();
+        $.ajax({
+          type: "POST",
+          url: "lib/download-game.php",
+          data: {
+            gameId: gameId,
+            userId: userId
+          },
+          error: function (error) {
+            console.log(error);
+          }
+        })
+      }
+  </script>
 
 </body>
 

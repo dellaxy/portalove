@@ -48,8 +48,8 @@
             WHERE p.id = :id";
             $stmt = $this->connection->prepare($query);
             $stmt->execute(["id" => $id]);
-            $connectedUser = $stmt->fetch(\PDO::FETCH_ASSOC);
-            return $connectedUser !== false ? $connectedUser : [];
+            $currentUser = $stmt->fetch(\PDO::FETCH_ASSOC);
+            return $currentUser !== false ? $currentUser : [];
         }
 
         public function getMostPopularGames(): array{
@@ -98,6 +98,11 @@
             $stmt->execute();
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         }
-        
+
+        public function downloadGame(int $gameId, int $profileId): void{
+            $query = "INSERT INTO profile_games (profile_id, game_id) VALUES (:profileId, :gameId)";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute(["profileId" => $profileId, "gameId" => $gameId]);
+        }
     }
 ?>

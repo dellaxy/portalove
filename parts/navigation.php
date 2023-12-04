@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require_once "lib/database.php";
 
@@ -6,16 +7,29 @@ use CYBORG\Lib\Database;
 
 $db = new Database();
 
-$connectedUser = $db->getProfileData(1);
+$_SESSION['loggedInUser'] = $db->getProfileData(1);
 
-function getProfilePicture($connectedUser) {
-  $profilePicture = "assets/images/profiles/";
-  if (!empty($connectedUser)) {
-    $profilePicture .= $connectedUser['profile_picture'];
+function isUserLoggedIn() {
+  return isset($_SESSION['loggedInUser']);
+}
+
+$currentUser = isUserLoggedIn() ? $_SESSION['loggedInUser'] : [];
+
+
+function displayProfileSection($currentUser) {
+  if (isUserLoggedIn()) {
+      echo '
+          <a href="profile.php">Profile <img src="' . getProfilePicture($currentUser) . '" alt="Profile Picture"></a></li>
+      ';
   } else {
-    $profilePicture .= "default.jpg";
+      echo '
+          <a href="login.php" style="padding:10px 15px 10px 15px;">Log In</a></li>
+      ';
   }
-  return $profilePicture;
+}
+
+function getProfilePicture($currentUser) {
+  return "assets/images/profiles/".$currentUser['profile_picture'];
 }
 
 function formatDownloads($count)
@@ -84,7 +98,7 @@ function getGameImage(string $gameUniqueName) {
               <li><a href="index.php">Home</a></li>
               <li><a href="browse.php" class="active">Browse</a></li>
               <li><a href="streams.php">Streams</a></li>
-              <li><a href="profile.php">Profile <img src="<?php echo getProfilePicture($connectedUser) ?>" alt ="Profile Picture">
+              <li><?php displayProfileSection($currentUser) ?></li>
             </ul>
             <a class='menu-trigger'>
               <span>Menu</span>
