@@ -99,8 +99,31 @@
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         }
 
+        public function getDownloadedGames(int $currentUserId): array{
+            $query = "SELECT DISTINCT game_id from profile_games WHERE profile_id = :currentUserId";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute(["currentUserId" => $currentUserId]);
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
+
+        public function getProfileGames(int $profileId): array{
+            $query = "SELECT DISTINCT games.id, games.name, games.game_header, categories.category FROM games 
+            INNER JOIN profile_games ON profile_games.game_id = games.id 
+            INNER JOIN categories ON categories.id = games.category_id  
+            WHERE profile_games.profile_id = :profileId";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute(["profileId" => $profileId]);
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
+
         public function downloadGame(int $gameId, int $profileId): void{
             $query = "INSERT INTO profile_games (profile_id, game_id) VALUES (:profileId, :gameId)";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute(["profileId" => $profileId, "gameId" => $gameId]);
+        }
+
+        public function uninstallGame(int $gameId, int $profileId): void{
+            $query = "DELETE FROM profile_games WHERE profile_id = :profileId AND game_id = :gameId";
             $stmt = $this->connection->prepare($query);
             $stmt->execute(["profileId" => $profileId, "gameId" => $gameId]);
         }

@@ -100,6 +100,7 @@ https://templatemo.com/tm-579-cyborg-gaming
                 $newestGames = $db->getMostRecentGames();
 
                 foreach ($newestGames as $game) {
+                  $profileGames = isUserLoggedIn() ? $db->getDownloadedGames($currentUser['id']) : [];
                   echo
                   '<div class="item">
                   <ul>
@@ -114,7 +115,11 @@ https://templatemo.com/tm-579-cyborg-gaming
                     <li> </li>
                     <li>';
                     if (isUserLoggedIn()) {
-                      echo '<div class="main-border-button"><a href="#" onclick="downloadGame(' . $game['id'] . ', ' . $currentUser['id'] . ')">Download</a></div>';
+                      if (in_array($game['id'], array_column($profileGames, 'game_id'))) {
+                        echo '<div class="main-border-button"><a href="profile.php">In Library</a></div>';
+                      } else {
+                        echo '<div class="main-border-button"><a href="#" onclick="downloadGame(' . $game['id'] . ', ' . $currentUser['id'] . ')">Download</a></div>';
+                      }
                     } else {
                         echo '<div class="main-border-button"><a href="login.php">Download</a></div>';
                     }
@@ -148,25 +153,6 @@ https://templatemo.com/tm-579-cyborg-gaming
   <script src="assets/js/tabs.js"></script>
   <script src="assets/js/popup.js"></script>
   <script src="assets/js/custom.js"></script>
-
-
-  <script>
-      function downloadGame(gameId, userId) {
-        event.preventDefault();
-        $.ajax({
-          type: "POST",
-          url: "lib/download-game.php",
-          data: {
-            gameId: gameId,
-            userId: userId
-          },
-          error: function (error) {
-            console.log(error);
-          }
-        })
-      }
-  </script>
-
 </body>
 
 </html>

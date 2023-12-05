@@ -91,18 +91,29 @@
 
                                         <?php 
                                         
-                                        $gameImages = getGameImage($gameDetail['unique_name']);
-                                        foreach ($gameImages as $image) {
-                                            echo '<div class="col-lg-4">
-                                            <img src="'. $image .'" alt="" style="border-radius: 23px; margin-bottom: 30px; height: 300px; object-fit: cover;"></div>';
-                                        }
+                                            $gameImages = getGameImage($gameDetail['unique_name']);
+                                            foreach ($gameImages as $image) {
+                                                echo '<div class="col-lg-4">
+                                                <img src="'. $image .'" alt="" style="border-radius: 23px; margin-bottom: 30px; height: 300px; object-fit: cover;"></div>';
+                                            }
                                         ?>
-                                        <div class="col-lg-12">
-                                            <p><?php echo $gameDetail['description']?></p>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="main-border-button">
-                                                <a href="#">Add To Favourites Now!</a>
+                                            <div class="col-lg-12">
+                                                <p><?php echo $gameDetail['description']?></p>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="main-border-button">
+                                        <?php
+                                            if (isUserLoggedIn()) {
+                                                $downloadedGames = $db->getDownloadedGames($currentUser['id']);
+                                                if (!in_array($gameDetail['id'], array_column($downloadedGames, 'game_id'))) {
+                                                    echo '<a href="" onclick="downloadGame(' . $gameDetail['id'] . ', ' . $currentUser['id'] . ')">Download now!</a>';
+                                                } else {
+                                                    echo '<a href="">Already Downloaded</a>';
+                                                }
+                                            } else {
+                                                echo '<a href="login.php">Login to download!</a>';
+                                            }
+                                        ?>
                                             </div>
                                         </div>  
                                     </div>
