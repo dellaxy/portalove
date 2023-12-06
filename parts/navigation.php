@@ -28,8 +28,14 @@ function displayProfileSection($currentUser) {
   }
 }
 
-function getProfilePicture($currentUser) {
-  return "assets/images/profiles/".$currentUser['profile_picture'];
+function getProfilePicture($profile) {
+  $profilePicture =  "assets/images/profiles/".$profile['profile_picture'];
+  if (file_exists($profilePicture)) {
+      return $profilePicture;
+  } else {
+      return "assets/images/profiles/default.jpg";
+  }
+  
 }
 
 function formatDownloads($count)

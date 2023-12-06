@@ -33,3 +33,13 @@ function uninstallGame(gameId, userId) {
         }
     })
 }
+
+function openProfileEditModal(profileDataObj) {
+    console.log(profileDataObj);
+    let updateModal = $('#profileEditModal');
+    let profileForm = updateModal.find('#profileUpdateForm');
+    profileForm.find('[name="nickname"]').val(profileDataObj.nickname);
+    profileForm.find('[name="bio"]').text(profileDataObj.bio);
+
+    updateModal.modal('show');
+}

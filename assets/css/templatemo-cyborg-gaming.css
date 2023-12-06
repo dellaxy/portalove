@@ -233,6 +233,9 @@ p {
   border-radius: 23px;
 }
 
+
+
+
 .main-button a {
   font-size: 14px;
   color: #fff;
@@ -1651,6 +1654,19 @@ Profile Style
   text-transform: capitalize;
   letter-spacing: 0.5px;
   margin-bottom: 15px;
+}
+
+.main-profile .main-info .edit-icon {
+  cursor: pointer;
+  color: white;
+  opacity: 0.25;
+  transition: all .3s;
+}
+
+.main-profile .main-info .edit-icon:hover {
+  color: #ec6090;
+  opacity: 1;
+  transition: all .3s;
 }
 
 .main-profile .main-info h4 {

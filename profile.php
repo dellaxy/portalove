@@ -39,6 +39,32 @@
 
   ?>
 
+  <div class="modal fade" id="profileEditModal" tabindex="-1" aria-labelledby="profileEditModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="profileEditModal">Modal Title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <form method="POST" action="lib/update-profile.php" id="profileUpdateForm">
+          <div class="form-group">
+            <label for="profile-nickname" class="col-form-label">Username</label>
+            <input type="text" class="form-control" id="profile-nickname" name="nickname">
+          </div>
+          <div class="form-group">
+            <label for="profile-bio" class="col-form-label">Bio</label>
+            <textarea class="form-control" id="profile-bio" name="bio" rows="5" style="resize:none;"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save changes</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
@@ -54,10 +80,19 @@
                   </div>
                   <div class="col-lg-4">
                     <div class="main-info header-text">
-                      <span>Offline</span>
-                      <h2><?php echo $profileInfo['nickname'] ?></h2>
-                      <p class="mt-3 fs-5"><?php echo $profileInfo['bio'] ?></p>
+                    <div class="row">
+                        <h2 class="col-10"><?php echo $profileInfo['nickname'] ?></h2>
+                        <div class="col-1 d-flex justify-content-center align-items-center mx-1">
+                          <?php
+                          if(isUserLoggedIn() && $profileInfo['id'] == $currentUser['id']){
+                            echo
+                              '<i class="fa-solid fa-pencil fa-xl edit-icon" title="Edit profile" onclick="openProfileEditModal('. htmlspecialchars(json_encode($currentUser), ENT_QUOTES, 'UTF-8') .')"></i>';
+                          };
+                          ?>
+                        </div>
                     </div>
+                        <p class="mt-3 fs-5"><?php echo $profileInfo['bio'] ?></p>
+                      </div>
                   </div>
                   <div class="col-lg-4">
                     <ul>
@@ -171,7 +206,7 @@
                       <h4>Hours Played</h4><span>745 H 22 Mins</span>
                     </li>
                     <li></li>';
-                      if(isUserLoggedIn()){
+                      if(isUserLoggedIn() && $profileInfo['id'] == $currentUser['id']){
                         echo '<li><div class="main-border-button"><a href="#" onclick="uninstallGame(' . $game['id'] . ', ' . $currentUser['id'] . ')">Uninstall</a></div></li>';
                       }
                     echo '</ul>
