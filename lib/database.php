@@ -40,14 +40,14 @@
             }
         }
 
-        public function getProfileData(int $id): array{
+        public function getProfileData(string $uniqueName): array{
             $query = "SELECT p.*, 
             (SELECT COUNT(*) FROM profile_following WHERE profile_id = p.id) as following_count,
             (SELECT COUNT(*) FROM profile_games WHERE profile_id = p.id) as games_count
             FROM profiles p 
-            WHERE p.id = :id";
+            WHERE p.unique_name = :uniqueName";
             $stmt = $this->connection->prepare($query);
-            $stmt->execute(["id" => $id]);
+            $stmt->execute(["uniqueName" => $uniqueName]);
             $currentUser = $stmt->fetch(\PDO::FETCH_ASSOC);
             return $currentUser !== false ? $currentUser : [];
         }
@@ -126,6 +126,12 @@
             $query = "DELETE FROM profile_games WHERE profile_id = :profileId AND game_id = :gameId";
             $stmt = $this->connection->prepare($query);
             $stmt->execute(["profileId" => $profileId, "gameId" => $gameId]);
+        }
+
+        public function updateProfileInfo(int $id, string $nickname, string $bio): void{
+            $query = "UPDATE profiles SET nickname = :nickname, bio = :bio WHERE id = :id";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute(["nickname" => $nickname, "bio" => $bio, "id" => $id]);
         }
     }
 ?>

@@ -34,12 +34,32 @@ function uninstallGame(gameId, userId) {
     })
 }
 
+function submitProfileEditForm() {
+    let formData = $('#profileUpdateForm').serialize();
+    var errorMessageElement = $('#profileEditModal').find('.error-message');
+    $.ajax({
+        type: 'POST',
+        url: 'lib/update-profile.php',
+        data: formData,
+        success: function (response) {
+            if (response === 'error') {
+                errorMessageElement.text(response.message);
+            } else {
+                $('#profileEditModal').modal('hide');
+                location.reload();
+            }
+        },
+        error: function (error) {
+            errorMessageElement.text(error.responseText);
+        }
+    });
+}
+
 function openProfileEditModal(profileDataObj) {
-    console.log(profileDataObj);
     let updateModal = $('#profileEditModal');
     let profileForm = updateModal.find('#profileUpdateForm');
     profileForm.find('[name="nickname"]').val(profileDataObj.nickname);
     profileForm.find('[name="bio"]').text(profileDataObj.bio);
-
+    profileForm.find('[name="userId"]').val(profileDataObj.id);
     updateModal.modal('show');
 }

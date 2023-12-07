@@ -26,14 +26,17 @@
   
   include_once "parts/navigation.php";
 
-  if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $profileId = intval($_GET['id']);
-    $profileInfo = $db->getProfileData($profileId);
+  if (isset($_GET['user'])) {
+    $profileUnique = $_GET['user'];
+    $profileInfo = $db->getProfileData($profileUnique);
+    if(empty($profileInfo)){
+      header("Location: index.php");
+    }
   } else {
     if(isUserLoggedIn()){
       $profileInfo = $currentUser;
     } else {
-      exit;
+      header("Location: login.php");
     }
   }
 
@@ -47,18 +50,20 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-        <form method="POST" action="lib/update-profile.php" id="profileUpdateForm">
+        <form id="profileUpdateForm" onsubmit="submitProfileEditForm()">
+          <input type="hidden" id="profile-userId" name="userId">
           <div class="form-group">
             <label for="profile-nickname" class="col-form-label">Username</label>
-            <input type="text" class="form-control" id="profile-nickname" name="nickname">
+            <input type="text" class="form-control" id="profile-nickname" name="nickname" required autocomplete="off">
           </div>
           <div class="form-group">
             <label for="profile-bio" class="col-form-label">Bio</label>
-            <textarea class="form-control" id="profile-bio" name="bio" rows="5" style="resize:none;"></textarea>
+            <textarea class="form-control" id="profile-bio" name="bio" rows="5" style="resize:none;" autocomplete="off"></textarea>
           </div>
         </div>
+        <div class="error-message text-danger text-center"></div>
         <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="submit" class="btn">Save changes</button>
         </form>
         </div>
       </div>
@@ -81,7 +86,7 @@
                   <div class="col-lg-4">
                     <div class="main-info header-text">
                     <div class="row">
-                        <h2 class="col-10"><?php echo $profileInfo['nickname'] ?></h2>
+                        <h2 class="col-10 text-break"><?php echo $profileInfo['nickname'] ?></h2>
                         <div class="col-1 d-flex justify-content-center align-items-center mx-1">
                           <?php
                           if(isUserLoggedIn() && $profileInfo['id'] == $currentUser['id']){
@@ -91,7 +96,7 @@
                           ?>
                         </div>
                     </div>
-                        <p class="mt-3 fs-5"><?php echo $profileInfo['bio'] ?></p>
+                        <p class="mt-4 fs-5 text-break"><?php echo $profileInfo['bio'] ?></p>
                       </div>
                   </div>
                   <div class="col-lg-4">
@@ -226,8 +231,7 @@
 
 
 
-  <!-- Scripts -->
-  <!-- Bootstrap core JavaScript -->
+
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 

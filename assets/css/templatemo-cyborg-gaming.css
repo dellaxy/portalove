@@ -1663,6 +1663,67 @@ Profile Style
   transition: all .3s;
 }
 
+.modal-content {
+  background-color: #1f2122;
+  color: white;
+}
+
+.modal-content input,
+.modal-content textarea,
+.login-panel input {
+  background-color: #27292a;
+  border: none;
+  border-radius: 30px;
+  padding: 15px 20px;
+  color: #d4d4d4;
+  width: 100%;
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus,
+.login-panel input:focus {
+  outline: none;
+  background-color: #27292a;
+  color: white;
+  outline: none;
+  box-shadow: none;
+}
+
+.modal-content button {
+  background-color: #ec6090;
+  border: none;
+  border-radius: 30px;
+  color: #fff;
+}
+
+.modal-content button:hover,
+.login-panel button:hover {
+  background-color: #ec6090;
+  opacity: 0.8;
+}
+
+.login-content {
+  background-color: #17191a;
+  color: white;
+  padding: 30px;
+  border-radius: 30px;
+}
+
+.login-content input {
+  margin-bottom: 15px;
+}
+
+.login-content button[type="submit"] {
+  background-color: #ec6090;
+  border: none;
+  border-radius: 30px;
+  color: #fff;
+  width: 100%;
+  padding: 15px 0px;
+  margin-top: 15px;
+}
+
+
 .main-profile .main-info .edit-icon:hover {
   color: #ec6090;
   opacity: 1;

@@ -7,14 +7,12 @@ use CYBORG\Lib\Database;
 
 $db = new Database();
 
-$_SESSION['loggedInUser'] = $db->getProfileData(1);
 
 function isUserLoggedIn() {
   return isset($_SESSION['loggedInUser']);
 }
 
 $currentUser = isUserLoggedIn() ? $_SESSION['loggedInUser'] : [];
-
 
 function displayProfileSection($currentUser) {
   if (isUserLoggedIn()) {
