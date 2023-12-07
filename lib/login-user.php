@@ -3,13 +3,13 @@ session_start();
 include_once "database.php";
 
 use CYBORG\Lib\Database;
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    
     $db = new Database();
-    
+
     $errorResponse = array(
-        'status' => 'success',
+        'status' => 'error',
         'message' => ''
     );
 
@@ -32,4 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     header("Location: ../login.php");
 }
+header('Content-Type: application/json');
+echo json_encode($errorResponse);
 ?>

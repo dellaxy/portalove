@@ -55,6 +55,26 @@ function submitProfileEditForm() {
     });
 }
 
+function submitLoginForm() {
+    preventDefault();
+    let formData = $('#loginForm').serialize();
+    var errorMessageElement = $('#loginForm').find('.error-message');
+    $.ajax({
+        type: 'POST',
+        url: 'lib/login-user.php',
+        data: formData,
+        success: function (response) {
+            if (response === 'error') {
+                errorMessageElement.text(response.message);
+            }
+        },
+        error: function (error) {
+            errorMessageElement.text(error.responseText);
+        }
+    });
+
+}
+
 function openProfileEditModal(profileDataObj) {
     let updateModal = $('#profileEditModal');
     let profileForm = updateModal.find('#profileUpdateForm');

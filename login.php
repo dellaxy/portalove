@@ -29,7 +29,7 @@
                         <div class="col-lg-6 offset-lg-3">
                             <div class="login-form">
                                 <h2 class="mb-3 text-center text-uppercase">Login</h2>
-                                <form action="lib/login-user.php" method="post">
+                                <form id="loginForm" onsubmit="submitLoginForm()">
                                     <div class="form-group">
                                         <input type="text" id="uniqueName" name="uniqueName" class="form-control" required placeholder="Unique Name">
                                     </div>
@@ -59,6 +59,7 @@
   <script src="assets/js/tabs.js"></script>
   <script src="assets/js/popup.js"></script>
   <script src="assets/js/custom.js"></script>
+  <script src="assets/js/script.js"></script>
 </body>
 
 </html>

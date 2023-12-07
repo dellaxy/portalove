@@ -54,7 +54,7 @@
           <input type="hidden" id="profile-userId" name="userId">
           <div class="form-group">
             <label for="profile-nickname" class="col-form-label">Username</label>
-            <input type="text" class="form-control" id="profile-nickname" name="nickname" required autocomplete="off">
+            <input type="text" class="form-control" id="profile-nickname" name="nickname" autocomplete="off">
           </div>
           <div class="form-group">
             <label for="profile-bio" class="col-form-label">Bio</label>
