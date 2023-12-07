@@ -34,7 +34,8 @@ function uninstallGame(gameId, userId) {
     })
 }
 
-function submitProfileEditForm() {
+function submitProfileEditForm(event) {
+    event.preventDefault();
     let formData = $('#profileUpdateForm').serialize();
     var errorMessageElement = $('#profileEditModal').find('.error-message');
     $.ajax({
@@ -42,7 +43,7 @@ function submitProfileEditForm() {
         url: 'lib/update-profile.php',
         data: formData,
         success: function (response) {
-            if (response === 'error') {
+            if (response.status === 'error') {
                 errorMessageElement.text(response.message);
             } else {
                 $('#profileEditModal').modal('hide');

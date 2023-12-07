@@ -10,24 +10,26 @@ $errorResponse = array(
     'status' => 'success',
     'message' => ''
 );
-error_log('Received POST data: ' . print_r($_POST, true));
 
 if(isset($_POST['userId'])){
-    if (isset($_POST['nickname'])) {
+    if (isset($_POST['nickname']) && $_POST['nickname'] != '') {
         $userId = intval($_POST['userId']);
         $nickname = $_POST['nickname'];
         $bio = $_POST['bio'];
         try {
             $db->updateProfileInfo($userId, $nickname, $bio);
         } catch (Exception $e) {
+            $errorResponse['status'] = 'error';
             $errorResponse['message'] = 'An unexpected error occurred. Please try again later.';
         }
     } else {
-        $errorResponse['message'] = 'Rquired fields not provided';
+        $errorResponse['status'] = 'error';
+        $errorResponse['message'] = 'Required fields not provided';
     
     }
 }
  else {
+    $errorResponse['status'] = 'error';
     $errorResponse['message'] = 'User could not be found.';
 }
 

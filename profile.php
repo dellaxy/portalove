@@ -50,7 +50,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-        <form id="profileUpdateForm" onsubmit="submitProfileEditForm()">
+        <form id="profileUpdateForm" onsubmit="submitProfileEditForm(event)">
           <input type="hidden" id="profile-userId" name="userId">
           <div class="form-group">
             <label for="profile-nickname" class="col-form-label">Username</label>
