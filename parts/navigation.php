@@ -7,7 +7,6 @@ use CYBORG\Lib\Database;
 
 $db = new Database();
 
-$_SESSION['loggedInUser'] = $db->getProfileData('randomAccount');
 
 function isUserLoggedIn() {
   return isset($_SESSION['loggedInUser']);

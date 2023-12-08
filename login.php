@@ -29,7 +29,7 @@
                         <div class="col-lg-6 offset-lg-3">
                             <div class="login-form">
                                 <h2 class="mb-3 text-center text-uppercase">Login</h2>
-                                <form id="loginForm" onsubmit="submitLoginForm()">
+                                <form id="loginForm" onsubmit="submitLoginForm(event)">
                                     <div class="form-group">
                                         <input type="text" id="uniqueName" name="uniqueName" class="form-control" required placeholder="Unique Name">
                                     </div>

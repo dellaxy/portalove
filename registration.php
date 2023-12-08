@@ -33,7 +33,7 @@
                         <div class="col-lg-6 offset-lg-3">
                             <div class="login-form">
                                 <h2 class="mb-3 text-center text-uppercase">Registration</h2>
-                                <form action="lib/create-account.php" method="post">
+                                <form id="registrationForm" onsubmit="submitRegistrationForm(event)">
                                     <div class="form-group">
                                         <input type="text" id="nickname" name="nickname" class="form-control" required placeholder="Nickname">
                                         <input type="text" id="uniqueName" name="uniqueName" class="form-control" required placeholder="Unique Name (login)">

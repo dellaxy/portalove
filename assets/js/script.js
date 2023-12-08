@@ -43,11 +43,11 @@ function submitProfileEditForm(event) {
         url: 'lib/update-profile.php',
         data: formData,
         success: function (response) {
-            if (response.status === 'error') {
-                errorMessageElement.text(response.message);
-            } else {
+            if (response.status === 'success') {
                 $('#profileEditModal').modal('hide');
                 location.reload();
+            } else {
+                errorMessageElement.text(response.message);
             }
         },
         error: function (error) {
@@ -56,8 +56,8 @@ function submitProfileEditForm(event) {
     });
 }
 
-function submitLoginForm() {
-    preventDefault();
+function submitLoginForm(event) {
+    event.preventDefault();
     let formData = $('#loginForm').serialize();
     var errorMessageElement = $('#loginForm').find('.error-message');
     $.ajax({
@@ -65,7 +65,9 @@ function submitLoginForm() {
         url: 'lib/login-user.php',
         data: formData,
         success: function (response) {
-            if (response === 'error') {
+            if (response.status === 'success') {
+                window.location.href = 'index.php';
+            } else {
                 errorMessageElement.text(response.message);
             }
         },
@@ -73,7 +75,27 @@ function submitLoginForm() {
             errorMessageElement.text(error.responseText);
         }
     });
+}
 
+function submitRegisterForm(event) {
+    event.preventDefault();
+    let formData = $('#registrationForm').serialize();
+    var errorMessageElement = $('#registrationForm').find('.error-message');
+    $.ajax({
+        type: 'POST',
+        url: 'lib/register-user.php',
+        data: formData,
+        success: function (response) {
+            if (response.status === 'error') {
+                errorMessageElement.text(response.message);
+            } else {
+                window.location.href = 'login.php';
+            }
+        },
+        error: function (error) {
+            errorMessageElement.text(error.responseText);
+        }
+    });
 }
 
 function openProfileEditModal(profileDataObj) {
