@@ -77,25 +77,35 @@ function submitLoginForm(event) {
     });
 }
 
-function submitRegisterForm(event) {
+function submitRegistrationForm(event) {
     event.preventDefault();
-    let formData = $('#registrationForm').serialize();
-    var errorMessageElement = $('#registrationForm').find('.error-message');
-    $.ajax({
-        type: 'POST',
-        url: 'lib/register-user.php',
-        data: formData,
-        success: function (response) {
-            if (response.status === 'error') {
-                errorMessageElement.text(response.message);
-            } else {
-                window.location.href = 'login.php';
-            }
-        },
-        error: function (error) {
-            errorMessageElement.text(error.responseText);
-        }
+    let formData = {};
+    $('#registrationForm').serializeArray()
+    .forEach(function(item){
+        formData[item.name] = item.value;
     });
+    var errorMessageElement = $('#registrationForm').find('.error-message');
+    if (formData.password !== formData.passwordConfirm) {
+        errorMessageElement.text('Passwords do not match');
+        return;
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: 'lib/create-account.php',
+            data: formData,
+            success: function (response) {
+                if (response.status === 'success') {
+                    window.location.href = 'login.php';
+                } else {
+                    errorMessageElement.text(response.message);
+                }
+            },
+            error: function (error) {
+                errorMessageElement.text(error.responseText);
+            }
+        });
+    
+    }
 }
 
 function openProfileEditModal(profileDataObj) {

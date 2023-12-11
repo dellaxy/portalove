@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 include_once "database.php";
 
@@ -18,6 +19,7 @@ if(isset($_POST['userId'])){
         $bio = $_POST['bio'];
         try {
             $db->updateProfileInfo($userId, $nickname, $bio);
+            $_SESSION['loggedInUser'] = $db->getProfileData($_SESSION['loggedInUser']['unique_name']);
         } catch (Exception $e) {
             $errorResponse['status'] = 'error';
             $errorResponse['message'] = 'An unexpected error occurred. Please try again later.';
@@ -25,7 +27,6 @@ if(isset($_POST['userId'])){
     } else {
         $errorResponse['status'] = 'error';
         $errorResponse['message'] = 'Required fields not provided';
-    
     }
 }
  else {

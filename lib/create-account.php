@@ -12,34 +12,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'status' => 'success',
         'message' => ''
     );
-
-    if(isset($_POST['uniqueName']) && isset($_POST['password'])){
+    
+    if (isset($_POST['nickname']) && isset($_POST['uniqueName']) && isset($_POST['password'])) {
+        $nickname = $_POST['nickname'];
         $uniqueName = $_POST['uniqueName'];
-        $password = $_POST['password'];
-
-        try {
-            $result = $db->getProfileData($uniqueName);
-
-            if ($result && password_verify($password, $result['password'])) {
-                $_SESSION['loggedInUser'] = $result;
-            } else if (!$result) {
+        try{
+            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            $registrationError = $db->createAccount($nickname, $uniqueName, $password);
+            if($registrationError){
                 $errorResponse['status'] = 'error';
-                $errorResponse['message'] = 'User with this login does not exist.';
-            } else {
-                $errorResponse['status'] = 'error';
-                $errorResponse['message'] = 'Invalid credentials.';
+                $errorResponse['message'] = $registrationError;
             }
         } catch (Exception $e) {
             $errorResponse['status'] = 'error';
             $errorResponse['message'] = 'An unexpected error occurred. Please try again later.';
         }
-        
     } else {
         $errorResponse['status'] = 'error';
         $errorResponse['message'] = 'Fields cannot be empty.';
     }
 } else {
-    header("Location: ../login.php");
+    header("Location: ../create-account.php");
     exit();
 }
 header('Content-Type: application/json');

@@ -40,8 +40,9 @@
                                     </div>
                                     <div class="form-group">
                                         <input type="password" id="password" name="password" class="form-control" required placeholder="Password">
-                                        <input type="password" id="password2" name="password2" class="form-control" required placeholder="Confirm Password">
+                                        <input type="password" id="passwordConfirm" name="passwordConfirm" class="form-control" required placeholder="Confirm Password">
                                     </div>
+                                    <div class="error-message text-danger text-center"></div>
                                     <button type="submit" class="btn btn-primary">Create Account</button>
                                 </form>
                             </div>
@@ -62,6 +63,8 @@
   <script src="assets/js/tabs.js"></script>
   <script src="assets/js/popup.js"></script>
   <script src="assets/js/custom.js"></script>
+
+  <script src="assets/js/script.js"></script>
 </body>
 
 </html>

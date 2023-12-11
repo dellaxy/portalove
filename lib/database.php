@@ -133,5 +133,20 @@
             $stmt = $this->connection->prepare($query);
             $stmt->execute(["nickname" => $nickname, "bio" => $bio, "id" => $id]);
         }
+
+        public function createAccount(string $nickname, string $uniqueName, string $password): ?string{
+            $userMatchQuery = "SELECT * FROM profiles WHERE unique_name = :uniqueName";
+            $stmt = $this->connection->prepare($userMatchQuery);
+            $stmt->execute(["uniqueName" => $uniqueName]);
+            $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+            if($user !== false){
+                return "User with this login already exists.";
+            } else {
+                $query = "INSERT INTO profiles (nickname, unique_name, password, profile_picture) VALUES (:nickname, :uniqueName, :password, 'default.jpg')";
+                $stmt = $this->connection->prepare($query);
+                $stmt->execute(["nickname" => $nickname, "uniqueName" => $uniqueName, "password" => $password]);
+                return null;
+            }
+        }
     }
 ?>
