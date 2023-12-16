@@ -106,7 +106,7 @@
                                             if (isUserLoggedIn()) {
                                                 $downloadedGames = $db->getDownloadedGames($currentUser['id']);
                                                 if (!in_array($gameDetail['id'], array_column($downloadedGames, 'game_id'))) {
-                                                    echo '<a href="" onclick="downloadGame(' . $gameDetail['id'] . ', ' . $currentUser['id'] . ')">Download now!</a>';
+                                                    echo '<a href="" onclick="downloadGame(' . $gameDetail['id'] . ', ' . $currentUser['id'] .', event)">Download now!</a>';
                                                 } else {
                                                     echo '<a href="">Already Downloaded</a>';
                                                 }

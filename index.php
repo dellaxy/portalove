@@ -108,7 +108,7 @@
                       if (in_array($game['id'], array_column($profileGames, 'game_id'))) {
                         echo '<div class="main-border-button"><a href="profile.php">In Library</a></div>';
                       } else {
-                        echo '<div class="main-border-button"><a href="#" onclick="downloadGame(' . $game['id'] . ', ' . $currentUser['id'] . ')">Download</a></div>';
+                        echo '<div class="main-border-button"><a href="#" onclick="downloadGame(' . $game['id'] . ', ' . $currentUser['id'] . ', event)">Download</a></div>';
                       }
                     } else {
                         echo '<div class="main-border-button"><a href="login.php">Download</a></div>';

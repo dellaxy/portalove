@@ -70,12 +70,38 @@
     </div>
   </div>
 
+  <div class="modal fade" id="followingModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="profileModalLabel">Followed accounts</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+          <?php
+
+            $followings = $db->getProfileFollowings($profileInfo['id']);
+            foreach($followings as $following){
+              echo '<li class="list-group-item" style="display: flex; align-items: center;">
+              <img src="'.getProfilePicture($following).'" alt="Profile Picture">
+              <a href="profile.php?user='.$following['unique_name'].'">' . $following['nickname'] . '</a>
+            </li>';
+      
+            }
+            
+          ?>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
         <div class="page-content">
-
-          <!-- ***** Banner Start ***** -->
           <div class="row">
             <div class="col-lg-12">
               <div class="main-profile ">
@@ -102,12 +128,15 @@
                   <div class="col-lg-4">
                     <ul>
                       <li>Games Downloaded <span><?php echo $profileInfo['games_count'] ?></span></li>
-                      <li>Following <span><?php echo $profileInfo['following_count'] ?></span></li>
+                      <li onclick='openFollowingModal(1, true)' style="pointer: cursor">Following<span><?php echo $profileInfo['following_count'] ?></span></li>
                       <li>Clips <span>29</span></li>
                       <?php 
                         if (isUserLoggedIn() && $profileInfo['id'] != $currentUser['id']){
-                        echo
-                        '<li><div class="main-border-button"><a href="">Follow</a></div></li>';
+                          $following = $db->getProfileFollowings($currentUser['id']);
+                          if(in_array($profileInfo['id'], array_column($following, 'id'))){
+                            echo
+                            '<li><div class="main-border-button"><a href="" onclick="unfollowProfile(' . $profileInfo['id'] . ', ' . $currentUser['id'] . ')">Unfollow</a></div></li>';
+                          }
                         }
                       ?>
                     </ul>

@@ -1,4 +1,4 @@
-function downloadGame(gameId, userId) {
+function downloadGame(gameId, userId, event) {
     event.preventDefault();
     $.ajax({
         type: "POST",
@@ -33,6 +33,41 @@ function uninstallGame(gameId, userId) {
         }
     })
 }
+
+function followProfile(profileId, userId) {
+    $.ajax({
+        type: "POST",
+        url: "lib/follow.php",
+        data: {
+            profileId: profileId,
+            userId: userId
+        },
+        success: function (response) {
+            location.reload();
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    })
+}
+
+function unfollowProfile(profileId, userId) {
+    $.ajax({
+        type: "POST",
+        url: "lib/unfollow.php",
+        data: {
+            profileId: profileId,
+            userId: userId
+        },
+        success: function (response) {
+            location.reload();
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    })
+}
+
 
 function submitProfileEditForm(event) {
     event.preventDefault();
@@ -115,4 +150,9 @@ function openProfileEditModal(profileDataObj) {
     profileForm.find('[name="bio"]').text(profileDataObj.bio);
     profileForm.find('[name="userId"]').val(profileDataObj.id);
     updateModal.modal('show');
+}
+
+function openFollowingModal(profileId, isMyProfile){
+    let followingModal = $('#followingModal');
+    followingModal.modal('show');
 }

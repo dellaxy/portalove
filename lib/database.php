@@ -52,6 +52,16 @@
             return $currentUser !== false ? $currentUser : [];
         }
 
+        public function getProfileFollowings(string $profileId): array{
+            $query = "SELECT following.id, following.nickname, following.unique_name, following.profile_picture from profile_following"
+            . " INNER JOIN profiles following ON following.id = profile_following.following_profile_id"
+            . " WHERE profile_following.profile_id = :profileId";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute(["profileId" => $profileId]);
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
+    
+
         public function getMostPopularGames(): array{
             $query = "SELECT games.id, games.unique_name, games.name, games.downloads, games.game_header, ROUND(AVG(ratings.rating), 1) as average_rating,categories.category as category,
             (games.downloads / 1000000 * AVG(ratings.rating)*10) as popularity_score        
@@ -94,6 +104,14 @@
             INNER JOIN categories ON categories.id = games.category_id
             ORDER BY games.release_date DESC
             LIMIT 3";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
+
+        public function getAllGames(): array{
+            $query = "SELECT games.id, games.name, games.game_header, games.release_date ,categories.category as category from games"
+            . " INNER JOIN categories ON categories.id = games.category_id";
             $stmt = $this->connection->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -144,9 +162,21 @@
             } else {
                 $query = "INSERT INTO profiles (nickname, unique_name, password, profile_picture) VALUES (:nickname, :uniqueName, :password, 'default.jpg')";
                 $stmt = $this->connection->prepare($query);
-                $stmt->execute(["nickname" => $nickname, "uniqueName" => $uniqueName, "password" => $password]);
+                $stmt->execute(["nickname" => $nickname, "uniqueName" => $uniqueName, "password" => $password]); 
                 return null;
             }
         }
+        public function followProfile(int $profileId, int $followingProfileId): void{
+            $query = "INSERT INTO profile_following (profile_id, following_profile_id) VALUES (:profileId, :followingProfileId)";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute(["profileId" => $profileId, "followingProfileId" => $followingProfileId]);
+        }
+
+        public function unfollowProfile(int $profileId, int $followingProfileId): void{
+            $query = "DELETE FROM profile_following WHERE profile_id = :profileId AND following_profile_id = :followingProfileId";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute(["profileId" => $profileId, "followingProfileId" => $followingProfileId]);
+        }
+
     }
 ?>
