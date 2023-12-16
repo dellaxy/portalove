@@ -64,15 +64,20 @@ function getGameHeader(string $gameHeader) {
 
 function getGameImage(string $gameUniqueName) {
   $gameFolderPath = 'assets/images/games/' . $gameUniqueName;
+  $default = [
+    'assets/images/games/game.jpg',
+    'assets/images/games/game.jpg',
+    'assets/images/games/game.jpg',
+  ];
+
+  if (!is_dir($gameFolderPath)) {
+    return $default;
+  }
   $images = scandir($gameFolderPath);
   $images = array_slice($images, 2);
 
   if (empty($images)) {
-      return [
-          'assets/images/games/game.jpg',
-          'assets/images/games/game.jpg',
-          'assets/images/games/game.jpg',
-      ];
+      return $default;
   } else {
       $images = array_map(function ($image) use ($gameFolderPath) {
           return $gameFolderPath . '/' . $image;

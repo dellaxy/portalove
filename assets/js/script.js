@@ -35,12 +35,13 @@ function uninstallGame(gameId, userId) {
 }
 
 function followProfile(profileId, userId) {
+    event.preventDefault();
     $.ajax({
         type: "POST",
         url: "lib/follow.php",
         data: {
             profileId: profileId,
-            userId: userId
+            followingId: userId
         },
         success: function (response) {
             location.reload();
@@ -52,12 +53,13 @@ function followProfile(profileId, userId) {
 }
 
 function unfollowProfile(profileId, userId) {
+    event.preventDefault();
     $.ajax({
         type: "POST",
         url: "lib/unfollow.php",
         data: {
             profileId: profileId,
-            userId: userId
+            followingId: userId
         },
         success: function (response) {
             location.reload();

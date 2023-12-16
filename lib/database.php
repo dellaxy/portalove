@@ -177,6 +177,5 @@
             $stmt = $this->connection->prepare($query);
             $stmt->execute(["profileId" => $profileId, "followingProfileId" => $followingProfileId]);
         }
-
     }
 ?>

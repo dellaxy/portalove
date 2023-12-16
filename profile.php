@@ -135,7 +135,10 @@
                           $following = $db->getProfileFollowings($currentUser['id']);
                           if(in_array($profileInfo['id'], array_column($following, 'id'))){
                             echo
-                            '<li><div class="main-border-button"><a href="" onclick="unfollowProfile(' . $profileInfo['id'] . ', ' . $currentUser['id'] . ')">Unfollow</a></div></li>';
+                            '<li><div class="main-border-button"><a href="" onclick="unfollowProfile(' . $currentUser['id'] . ', ' . $profileInfo['id'] . ')">Unfollow</a></div></li>';
+                          } else {
+                            echo
+                            '<li><div class="main-border-button"><a href="" onclick="followProfile(' . $currentUser['id'] . ', ' . $profileInfo['id'] . ')">Follow</a></div></li>';
                           }
                         }
                       ?>

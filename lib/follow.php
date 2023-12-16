@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 include_once "database.php";
 
@@ -11,6 +12,9 @@ if (isset($_POST['profileId']) && isset($_POST['followingId'])) {
     $followingId = $_POST['followingId'];
 
     $db->followProfile($profileId, $followingId);
+
+    $_SESSION['loggedInUser'] = $db->getProfileData($_SESSION['loggedInUser']['unique_name']);
+
 }
 
 ?>
