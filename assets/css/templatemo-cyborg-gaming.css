@@ -234,8 +234,6 @@ p {
 }
 
 
-
-
 .main-button a {
   font-size: 14px;
   color: #fff;
@@ -1515,7 +1513,7 @@ Other Related Style
 --------------------------------------------- 
 */
 
-.no-styles{
+.no-styles {
   background: none;
 }
 
@@ -1641,6 +1639,39 @@ Profile Style
 --------------------------------------------- 
 */
 
+
+.profile-container {
+  position: relative;
+  display: inline-block;
+}
+
+.logout-button {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #27292a;
+  border: 1px solid #27292a;
+  border-radius: 23px;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.logout-button:hover {
+  color: #ec6090;
+  transition: all .3s;
+}
+
+.profile-container:hover .logout-button {
+  display: block;
+}
+
+
+
 .main-profile {
   border-radius: 23px;
   padding: 30px;
@@ -1672,11 +1703,11 @@ Profile Style
   color: white;
 }
 
-.modal-content ul img{
+.modal-content ul img {
   height: 40px;
   width: 40px;
   object-fit: cover;
-  border-radius:36px;
+  border-radius: 36px;
   margin-right: 20px;
 }
 

@@ -71,29 +71,43 @@
   </div>
 
   <div class="modal fade" id="followingModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="profileModalLabel">Followed accounts</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group">
+            <?php
+              $followings = $db->getProfileFollowings($profileInfo['id']);
+              foreach($followings as $following){
+                echo '<li class="list-group-item" style="display: flex; align-items: center;">
+                <img src="'.getProfilePicture($following).'" alt="Profile Picture">
+                <a href="profile.php?user='.$following['unique_name'].'">' . $following['nickname'] . '</a>
+              </li>';
+        
+              }
+            ?>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="profilePictureModal" tabindex="-1" role="dialog" aria-labelledby="profilePictureModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="profileModalLabel">Followed accounts</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </button>
-      </div>
       <div class="modal-body">
-        <ul class="list-group">
-          <?php
-
-            $followings = $db->getProfileFollowings($profileInfo['id']);
-            foreach($followings as $following){
-              echo '<li class="list-group-item" style="display: flex; align-items: center;">
-              <img src="'.getProfilePicture($following).'" alt="Profile Picture">
-              <a href="profile.php?user='.$following['unique_name'].'">' . $following['nickname'] . '</a>
-            </li>';
-      
-            }
-            
-          ?>
-        </ul>
-      </div>
+        <div class="text-center">
+          <img id="preview" src="<?php echo getProfilePicture($profileInfo) ?>" alt="Current Profile Picture" style="border-radius: 23px; height: 400px; width: 450px; object-fit: cover;">
+          <input type="file" id="profile-picture" name="profile-picture" accept="image/*" onchange="previewImage()" class="mt-4">
+        </div>
+        <div class="text-center mt-3">
+          <button class="btn btn-primary" onclick="changeProfilePicture()">Change Picture</button>
+        </div>
+      </div>  
     </div>
   </div>
 </div>
@@ -107,7 +121,20 @@
               <div class="main-profile ">
                 <div class="row">
                   <div class="col-lg-4">
-                    <img src="<?php echo getProfilePicture($profileInfo) ?>" alt="" style="border-radius: 23px;">
+                    <?php
+
+                      if($profileInfo['id'] == $currentUser['id']){
+                        echo
+                        '<div class="profile-picture" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#profilePictureModal">
+                          <img src="'. getProfilePicture($profileInfo) .'" alt="" style="border-radius: 23px; aspect-ratio: 1/1;object-fit: cover;">
+                        </div>';
+                      } else {
+                        echo
+                        '<div class="profile-picture">
+                          <img src="'. getProfilePicture($profileInfo) .'" alt="" style="border-radius: 23px; aspect-ratio: 1/1;object-fit: cover;">
+                        </div>';
+                      }
+                    ?>
                   </div>
                   <div class="col-lg-4">
                     <div class="main-info header-text">
@@ -128,7 +155,7 @@
                   <div class="col-lg-4">
                     <ul>
                       <li>Games Downloaded <span><?php echo $profileInfo['games_count'] ?></span></li>
-                      <li onclick='openFollowingModal(1, true)' style="pointer: cursor">Following<span><?php echo $profileInfo['following_count'] ?></span></li>
+                      <li style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#followingModal">Following<span><?php echo $profileInfo['following_count'] ?></span></li>
                       <li>Clips <span>29</span></li>
                       <?php 
                         if (isUserLoggedIn() && $profileInfo['id'] != $currentUser['id']){

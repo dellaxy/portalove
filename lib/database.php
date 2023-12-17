@@ -134,6 +134,14 @@
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         }
 
+        public function getTopStreamers(): array{
+            $query = "SELECT profiles.nickname, profiles.unique_name, profiles.profile_picture FROM profiles
+            LIMIT 5";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
+
         public function downloadGame(int $gameId, int $profileId): void{
             $query = "INSERT INTO profile_games (profile_id, game_id) VALUES (:profileId, :gameId)";
             $stmt = $this->connection->prepare($query);
@@ -176,6 +184,12 @@
             $query = "DELETE FROM profile_following WHERE profile_id = :profileId AND following_profile_id = :followingProfileId";
             $stmt = $this->connection->prepare($query);
             $stmt->execute(["profileId" => $profileId, "followingProfileId" => $followingProfileId]);
+        }
+
+        public function updateProfilePicture(int $id, string $fileName): void{
+            $query = "UPDATE profiles SET profile_picture = :fileName WHERE id = :id";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute(["fileName" => $fileName, "id" => $id]);
         }
     }
 ?>

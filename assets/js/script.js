@@ -118,9 +118,9 @@ function submitRegistrationForm(event) {
     event.preventDefault();
     let formData = {};
     $('#registrationForm').serializeArray()
-    .forEach(function(item){
-        formData[item.name] = item.value;
-    });
+        .forEach(function (item) {
+            formData[item.name] = item.value;
+        });
     var errorMessageElement = $('#registrationForm').find('.error-message');
     if (formData.password !== formData.passwordConfirm) {
         errorMessageElement.text('Passwords do not match');
@@ -141,7 +141,7 @@ function submitRegistrationForm(event) {
                 errorMessageElement.text(error.responseText);
             }
         });
-    
+
     }
 }
 
@@ -154,7 +154,54 @@ function openProfileEditModal(profileDataObj) {
     updateModal.modal('show');
 }
 
-function openFollowingModal(profileId, isMyProfile){
-    let followingModal = $('#followingModal');
-    followingModal.modal('show');
+function logout() {
+    $.ajax({
+        type: 'POST',
+        url: 'lib/logout-user.php',
+        success: function (response) {
+            window.location.href = 'index.php';
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
+function previewImage() {
+    var preview = document.getElementById('preview');
+    var fileInput = document.getElementById('profile-picture');
+    var file = fileInput.files[0];
+    var reader = new FileReader();
+
+    reader.onloadend = function () {
+        preview.src = reader.result;
+    };
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = "<?php echo getProfilePicture($profileInfo) ?>";
+    }
+}
+
+function changeProfilePicture() {
+    var fileInput = document.getElementById('profile-picture');
+    var file = fileInput.files[0];
+    if (file) {
+        var formData = new FormData();
+        formData.append('profile-picture', file);
+        $.ajax({
+            type: 'POST',
+            url: 'lib/change-picture.php',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                location.reload();
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
 }

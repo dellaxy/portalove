@@ -19,12 +19,12 @@ $currentUser = isUserLoggedIn() ? $_SESSION['loggedInUser'] : [];
 function displayProfileSection($currentUser) {
   if (isUserLoggedIn()) {
       echo '
-          <a href="profile.php">Profile <img src="' . getProfilePicture($currentUser) . '" alt="Profile Picture"></a></li>
-      ';
+      <div class="profile-container">
+      <a href="profile.php" class="profile-link">Profile <img src="' . getProfilePicture($currentUser) . '" alt="Profile Picture" style="aspect-ratio: 1/1; object-fit: cover;"></a>
+      <div class="logout-button" onclick="logout()">Logout</div></div>';
   } else {
       echo '
-          <a href="login.php" style="padding:10px 15px 10px 15px;">Log In</a></li>
-      ';
+          <a href="login.php" style="padding:10px 15px 10px 15px;">Log In</a></li>';
   }
 }
 

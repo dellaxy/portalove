@@ -134,51 +134,20 @@ https://templatemo.com/tm-579-cyborg-gaming
                   <h4><em>Top</em> Streamers</h4>
                 </div>
                 <ul>
-                  <li>
-                    <span>01</span>
-                    <img src="assets/images/avatar-01.jpg" alt=""
-                      style="max-width: 46px; border-radius: 50%; margin-right: 15px;">
-                    <h6><i class="fa fa-check"></i> LahutaM</h6>
-                    <div class="main-button">
-                      <a href="#">Follow</a>
-                    </div>
-                  </li>
-                  <li>
-                    <span>02</span>
-                    <img src="assets/images/avatar-02.jpg" alt=""
-                      style="max-width: 46px; border-radius: 50%; margin-right: 15px;">
-                    <h6><i class="fa fa-check"></i> Kengan</h6>
-                    <div class="main-button">
-                      <a href="#">Follow</a>
-                    </div>
-                  </li>
-                  <li>
-                    <span>03</span>
-                    <img src="assets/images/avatar-03.jpg" alt=""
-                      style="max-width: 46px; border-radius: 50%; margin-right: 15px;">
-                    <h6><i class="fa fa-check"></i> Areluwa</h6>
-                    <div class="main-button">
-                      <a href="#">Follow</a>
-                    </div>
-                  </li>
-                  <li>
-                    <span>04</span>
-                    <img src="assets/images/avatar-04.jpg" alt=""
-                      style="max-width: 46px; border-radius: 50%; margin-right: 15px;">
-                    <h6><i class="fa fa-check"></i> Omeg</h6>
-                    <div class="main-button">
-                      <a href="#">Follow</a>
-                    </div>
-                  </li>
-                  <li>
-                    <span>05</span>
-                    <img src="assets/images/avatar-01.jpg" alt=""
-                      style="max-width: 46px; border-radius: 50%; margin-right: 15px;">
-                    <h6><i class="fa fa-check"></i> GangTeam</h6>
-                    <div class="main-button">
-                      <a href="#">Follow</a>
-                    </div>
-                  </li>
+                  <?php
+
+                    $topStreamers = $db->getTopStreamers();
+
+                    foreach ($topStreamers as $streamer){
+                      echo 
+                      '<li>
+                      <a href="profile.php?user='.$streamer['unique_name'].'">
+                        <img src="'.getProfilePicture($streamer).'" alt="Streamer Profile Picture"
+                          style="width: 46px; border-radius: 50%; margin-right: 15px; aspect-ratio: 1/1;object-fit: cover;">
+                        <h6><i class="fa fa-check"></i> '.$streamer['nickname'].'</h6>
+                      </li>';
+                    }
+                  ?>
                 </ul>
               </div>
             </div>
