@@ -2,15 +2,17 @@
 session_start();
 
 require_once "lib/database.php";
+require_once "lib/functions.php";
 
 use CYBORG\Lib\Database;
 
 $db = new Database();
 
-
-function isUserLoggedIn() {
-  return isset($_SESSION['loggedInUser']);
-}
+$menuItems = [
+  'Home' => 'index.php',
+  'Browse' => 'browse.php',
+  'Streams' => 'streams.php',
+];
 
 $currentUser = isUserLoggedIn() ? $_SESSION['loggedInUser'] : [];
 
@@ -23,66 +25,6 @@ function displayProfileSection($currentUser) {
       echo '
           <a href="login.php" style="padding:10px 15px 10px 15px;">Log In</a></li>
       ';
-  }
-}
-
-function getProfilePicture($profile) {
-  $profilePicture =  "assets/images/profiles/".$profile['profile_picture'];
-  if (file_exists($profilePicture)) {
-      return $profilePicture;
-  } else {
-      return "assets/images/profiles/default.jpg";
-  }
-  
-}
-
-function formatDownloads($count)
-{
-  $suffix = '';
-  if ($count >= 1000000) {
-    $count = $count / 1000000;
-    $suffix = 'M';
-  } elseif ($count >= 1000) {
-    $count = $count / 1000;
-    $suffix = 'K';
-  }
-
-  $formattedCount = number_format($count, 1);
-
-  return $formattedCount . $suffix;
-}
-
-// tieto 2 funkcie sú len preto lebo sa mi nechcelo pre každú hru nahrávať obrázky
-// tak sa ako default použije game.jpg
-
-function getGameHeader(string $gameHeader) {
-  $gameImagePath = 'assets/images/games/' . $gameHeader;
-  $defaultImagePath = 'assets/images/games/game.jpg';
-
-  return file_exists($gameImagePath) ? $gameImagePath : $defaultImagePath;
-}
-
-function getGameImage(string $gameUniqueName) {
-  $gameFolderPath = 'assets/images/games/' . $gameUniqueName;
-  $default = [
-    'assets/images/games/game.jpg',
-    'assets/images/games/game.jpg',
-    'assets/images/games/game.jpg',
-  ];
-
-  if (!is_dir($gameFolderPath)) {
-    return $default;
-  }
-  $images = scandir($gameFolderPath);
-  $images = array_slice($images, 2);
-
-  if (empty($images)) {
-      return $default;
-  } else {
-      $images = array_map(function ($image) use ($gameFolderPath) {
-          return $gameFolderPath . '/' . $image;
-      }, $images);
-      return $images;
   }
 }
 
@@ -104,9 +46,11 @@ function getGameImage(string $gameUniqueName) {
               </form>
             </div>
             <ul class="nav" id="navigation">
-              <li><a href="index.php">Home</a></li>
-              <li><a href="browse.php" class="active">Browse</a></li>
-              <li><a href="streams.php">Streams</a></li>
+              <?php
+                foreach ($menuItems as $label => $link) {
+                  echo '<li><a href="' . $link . '">' . $label . '</a></li>';
+                }
+              ?>
               <li><?php displayProfileSection($currentUser) ?></li>
             </ul>
             <a class='menu-trigger'>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 include_once "database.php";
 
@@ -11,6 +12,8 @@ if (isset($_POST['gameId']) && isset($_POST['userId'])) {
     $userId = $_POST['userId'];
 
     $db->uninstallGame($gameId, $userId);
+
+    $_SESSION['loggedInUser'] = $db->getProfileData($_SESSION['loggedInUser']['unique_name']);
 }
 
 ?>
